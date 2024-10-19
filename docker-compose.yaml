@@ -4,7 +4,7 @@ volumes:
   postgres_volume:
 
 services:
-  auth_svc:
+  chat_svc:
     build:
       context: .
       dockerfile: Dockerfile
@@ -34,5 +34,5 @@ services:
     env_file:
       - local.env
     environment:
-      DB_HOST: auth_db
+      DB_HOST: chat_db
 
