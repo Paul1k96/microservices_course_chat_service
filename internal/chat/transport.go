@@ -30,8 +30,8 @@ func NewChatAPI(logger *slog.Logger, chatRepo ChatsRepository) *API {
 }
 
 // Create creates a chat with the given usernames.
-func (c *API) Create(ctx context.Context, req *chat_v1.CreateRequest) (*chat_v1.CreateResponse, error) {
-	logger := c.logger.
+func (a *API) Create(ctx context.Context, req *chat_v1.CreateRequest) (*chat_v1.CreateResponse, error) {
+	logger := a.logger.
 		With("method", "Create").
 		With("usernames", req.Usernames)
 
@@ -41,13 +41,13 @@ func (c *API) Create(ctx context.Context, req *chat_v1.CreateRequest) (*chat_v1.
 		usersForChat = append(usersForChat, User{Name: username})
 	}
 
-	chatID, err := c.chatRepo.Create(ctx)
+	chatID, err := a.chatRepo.Create(ctx)
 	if err != nil {
 		logger.Error("failed to create chat", slog.String("error", err.Error()))
 		return nil, fmt.Errorf("failed to create chat: %w", err)
 	}
 
-	err = c.chatRepo.AddBatchUsers(ctx, *chatID, usersForChat)
+	err = a.chatRepo.AddBatchUsers(ctx, *chatID, usersForChat)
 	if err != nil {
 		logger.Error("failed to add users to chat", slog.String("error", err.Error()))
 		return nil, fmt.Errorf("failed to add users to chat: %w", err)
@@ -57,11 +57,11 @@ func (c *API) Create(ctx context.Context, req *chat_v1.CreateRequest) (*chat_v1.
 }
 
 // SendMessage sends a message to a chat.
-func (c *API) SendMessage(
+func (a *API) SendMessage(
 	ctx context.Context,
 	req *chat_v1.SendMessageRequest,
 ) (*chat_v1.SendMessageResponse, error) {
-	logger := c.logger.With("method", "SendMessage")
+	logger := a.logger.With("method", "SendMessage")
 
 	message := Message{
 		ID:   uuid.New(),
@@ -69,7 +69,7 @@ func (c *API) SendMessage(
 		Text: req.Text,
 	}
 
-	err := c.chatRepo.SendMessage(ctx, req.ChatId, message)
+	err := a.chatRepo.SendMessage(ctx, req.ChatId, message)
 	if err != nil {
 		logger.Error("failed to send message", slog.String("error", err.Error()))
 		return nil, fmt.Errorf("failed to send message: %w", err)
@@ -79,12 +79,12 @@ func (c *API) SendMessage(
 }
 
 // Delete deletes a chat.
-func (c *API) Delete(ctx context.Context, req *chat_v1.DeleteRequest) (*chat_v1.DeleteResponse, error) {
-	logger := c.logger.
+func (a *API) Delete(ctx context.Context, req *chat_v1.DeleteRequest) (*chat_v1.DeleteResponse, error) {
+	logger := a.logger.
 		With("method", "Delete").
 		With("chat_id", req.Id)
 
-	err := c.chatRepo.Delete(ctx, req.Id)
+	err := a.chatRepo.Delete(ctx, req.Id)
 	if err != nil {
 		logger.Error("failed to delete chat", slog.String("error", err.Error()))
 		return nil, fmt.Errorf("failed to delete chat: %w", err)

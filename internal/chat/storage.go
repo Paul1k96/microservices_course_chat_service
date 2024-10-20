@@ -9,10 +9,19 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+// Table names.
 const (
 	chatTable     = "chats"
 	chatUserTable = "chat_users"
 	messageTable  = "messages"
+)
+
+// Column names.
+const (
+	idColumn       = "id"
+	userNameColumn = "user_name"
+	chatIDColumn   = "chat_id"
+	textColumn     = "text"
 )
 
 // Repository represents chat repository.
@@ -29,7 +38,7 @@ func NewChatRepository(pg *sqlx.DB) *Repository {
 func (r *Repository) Create(ctx context.Context) (*int64, error) {
 	queryBuilder := sq.Insert(chatTable).
 		PlaceholderFormat(sq.Dollar).
-		Columns("id").
+		Columns(idColumn).
 		Values(sq.Expr("DEFAULT")).
 		Suffix("RETURNING id")
 
@@ -57,7 +66,7 @@ func (r *Repository) AddBatchUsers(ctx context.Context, chatID int64, users []Us
 	for _, user := range users {
 		queryBuilder := sq.Insert(chatUserTable).
 			PlaceholderFormat(sq.Dollar).
-			Columns("chat_id", "user_name").
+			Columns(chatIDColumn, userNameColumn).
 			Values(chatID, user.Name)
 
 		query, args, err := queryBuilder.ToSql()
@@ -82,7 +91,7 @@ func (r *Repository) AddBatchUsers(ctx context.Context, chatID int64, users []Us
 func (r *Repository) SendMessage(ctx context.Context, chatID int64, message Message) error {
 	queryBuilder := sq.Insert(messageTable).
 		PlaceholderFormat(sq.Dollar).
-		Columns("id", "chat_id", "user_name", "text").
+		Columns(idColumn, chatIDColumn, userNameColumn, textColumn).
 		Values(message.ID, chatID, message.User, message.Text)
 
 	query, args, err := queryBuilder.ToSql()
@@ -102,7 +111,7 @@ func (r *Repository) SendMessage(ctx context.Context, chatID int64, message Mess
 func (r *Repository) Delete(ctx context.Context, chatID int64) error {
 	queryBuilder := sq.Delete(chatTable).
 		PlaceholderFormat(sq.Dollar).
-		Where(sq.Eq{"id": chatID})
+		Where(sq.Eq{idColumn: chatID})
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
