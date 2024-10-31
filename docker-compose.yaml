@@ -11,11 +11,10 @@ services:
     restart: always
     env_file:
       - local.env
-    environment:
-      POSTGRES_PORT: 5432
-      POSTGRES_HOST: chat_db
     ports:
       - "50051:50051"
+    networks:
+      - cluster
 
   chat_db:
     image: postgres:14-alpine
@@ -24,7 +23,10 @@ services:
     env_file:
       - local.env
     ports:
-      - "6432:5432"
+      - "6431:5432"
+    networks:
+      - cluster
+      - db
 
   migrator:
     build:
@@ -35,4 +37,10 @@ services:
       - local.env
     environment:
       DB_HOST: chat_db
+    networks:
+      - db
 
+networks:
+  db:
+  cluster:
+    external: true
