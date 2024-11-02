@@ -7,10 +7,6 @@ import (
 
 	userV1Client "github.com/Paul1k96/microservices_course_auth/pkg/proto/gen/user_v1"
 	chatv1 "github.com/Paul1k96/microservices_course_chat_service/internal/api/chat/v1"
-	"github.com/Paul1k96/microservices_course_chat_service/internal/client/db"
-	"github.com/Paul1k96/microservices_course_chat_service/internal/client/db/pg"
-	"github.com/Paul1k96/microservices_course_chat_service/internal/client/db/transaction"
-	"github.com/Paul1k96/microservices_course_chat_service/internal/closer"
 	"github.com/Paul1k96/microservices_course_chat_service/internal/config"
 	"github.com/Paul1k96/microservices_course_chat_service/internal/config/env"
 	"github.com/Paul1k96/microservices_course_chat_service/internal/repository"
@@ -19,6 +15,10 @@ import (
 	"github.com/Paul1k96/microservices_course_chat_service/internal/repository/user"
 	"github.com/Paul1k96/microservices_course_chat_service/internal/service"
 	chatSvc "github.com/Paul1k96/microservices_course_chat_service/internal/service/chat"
+	"github.com/Paul1k96/microservices_course_platform_common/pkg/client/db"
+	"github.com/Paul1k96/microservices_course_platform_common/pkg/client/db/pg"
+	"github.com/Paul1k96/microservices_course_platform_common/pkg/client/db/transaction"
+	"github.com/Paul1k96/microservices_course_platform_common/pkg/closer"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

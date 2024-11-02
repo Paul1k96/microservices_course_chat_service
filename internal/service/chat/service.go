@@ -1,9 +1,9 @@
 package chat
 
 import (
-	"github.com/Paul1k96/microservices_course_chat_service/internal/client/db"
 	"github.com/Paul1k96/microservices_course_chat_service/internal/repository"
 	svc "github.com/Paul1k96/microservices_course_chat_service/internal/service"
+	"github.com/Paul1k96/microservices_course_platform_common/pkg/client/db"
 )
 
 type service struct {

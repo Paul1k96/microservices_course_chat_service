@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	sq "github.com/Masterminds/squirrel"
-	"github.com/Paul1k96/microservices_course_chat_service/internal/client/db"
 	modelRepoMessage "github.com/Paul1k96/microservices_course_chat_service/internal/repository/message/model"
+	"github.com/Paul1k96/microservices_course_platform_common/pkg/client/db"
 )
 
 const (
