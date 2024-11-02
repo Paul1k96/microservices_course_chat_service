@@ -2,6 +2,7 @@ version: '3'
 
 volumes:
   postgres_volume:
+  redis-data:
 
 services:
   chat_svc:
@@ -27,6 +28,15 @@ services:
     networks:
       - cluster
       - db
+
+  chat_cache:
+    image: redis:7.2.5-alpine
+    ports:
+      - "6371:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - cluster
 
   migrator:
     build:
