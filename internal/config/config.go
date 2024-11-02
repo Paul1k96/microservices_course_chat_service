@@ -7,5 +7,6 @@ type PGConfig interface {
 
 // GRPCConfig represents configuration for gRPC.
 type GRPCConfig interface {
-	GetAddress() string
+	GetServerAddress() string
+	GetAuthAddress() string
 }
