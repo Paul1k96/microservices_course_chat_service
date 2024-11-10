@@ -6,7 +6,6 @@ import (
 
 	sq "github.com/Masterminds/squirrel"
 	"github.com/Paul1k96/microservices_course_chat_service/internal/model"
-	modelRepoChat "github.com/Paul1k96/microservices_course_chat_service/internal/repository/chat/model"
 	"github.com/Paul1k96/microservices_course_platform_common/pkg/client/db"
 )
 
@@ -63,7 +62,7 @@ func (r *Repository) Create(ctx context.Context) (model.ChatID, error) {
 }
 
 // AddUsers to chat.
-func (r *Repository) AddUsers(ctx context.Context, userChat []*modelRepoChat.User) error {
+func (r *Repository) AddUsers(ctx context.Context, userChat model.Users) error {
 	queryBuilder := sq.Insert(chatUsersTableName).
 		PlaceholderFormat(sq.Dollar).
 		Columns(chatUsersID, userIDColumn)

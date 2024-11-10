@@ -5,12 +5,10 @@ import (
 	"fmt"
 
 	"github.com/Paul1k96/microservices_course_chat_service/internal/model"
-	"github.com/Paul1k96/microservices_course_chat_service/internal/repository/chat/mapper"
-	repoUserMapper "github.com/Paul1k96/microservices_course_chat_service/internal/repository/user/mapper"
 )
 
 // Create creates a chat with users.
-func (s *service) Create(ctx context.Context, userIDs []model.UserID) (model.ChatID, error) {
+func (s *service) Create(ctx context.Context, userIDs model.UserIDs) (model.ChatID, error) {
 	var chatID model.ChatID
 
 	if txErr := s.txManager.ReadCommitted(ctx, func(ctx context.Context) error {
@@ -27,7 +25,7 @@ func (s *service) Create(ctx context.Context, userIDs []model.UserID) (model.Cha
 
 		users.SetChatID(chatID)
 
-		err = s.chatRepository.AddUsers(ctx, mapper.ToRepoCreateFromUsersService(users))
+		err = s.chatRepository.AddUsers(ctx, users)
 		if err != nil {
 			return fmt.Errorf("add users: %w", err)
 		}
@@ -40,15 +38,10 @@ func (s *service) Create(ctx context.Context, userIDs []model.UserID) (model.Cha
 	return chatID, nil
 }
 
-func (s *service) getUsers(ctx context.Context, userIDs []model.UserID) (model.Users, error) {
-	users := make(model.Users, 0, len(userIDs))
-	for _, userID := range userIDs {
-		user, err := s.userRepo.Get(ctx, repoUserMapper.ToGetRequest(userID))
-		if err != nil {
-			return nil, fmt.Errorf("get user %d: %w", userID, err)
-		}
-
-		users = append(users, user)
+func (s *service) getUsers(ctx context.Context, userIDs model.UserIDs) (model.Users, error) {
+	users, err := s.userRepo.List(ctx, userIDs)
+	if err != nil {
+		return nil, fmt.Errorf("list users: %w", err)
 	}
 
 	return users, nil

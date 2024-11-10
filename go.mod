@@ -4,8 +4,8 @@ go 1.23.2
 
 require (
 	github.com/Masterminds/squirrel v1.5.4
-	github.com/Paul1k96/microservices_course_auth v0.0.0-20241031114053-b4a4248031d7
-	github.com/Paul1k96/microservices_course_platform_common v0.1.0
+	github.com/Paul1k96/microservices_course_auth v0.0.0-20241109211736-35776bf97d24
+	github.com/Paul1k96/microservices_course_platform_common v0.4.0
 	github.com/google/uuid v1.6.0
 	github.com/lib/pq v1.10.9
 	google.golang.org/grpc v1.67.1
