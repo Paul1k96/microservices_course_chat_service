@@ -8,7 +8,7 @@ import (
 
 // Delete deletes chat.
 func (s *service) Delete(ctx context.Context, chatID model.ChatID) error {
-	err := s.chatRepository.Delete(ctx, int64(chatID))
+	err := s.chatRepository.Delete(ctx, chatID)
 	if err != nil {
 		return err
 	}

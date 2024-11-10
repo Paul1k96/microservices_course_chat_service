@@ -6,11 +6,13 @@ import (
 	"github.com/Paul1k96/microservices_course_chat_service/internal/model"
 )
 
+//go:generate ../../bin/mockgen -source $GOFILE -destination "mocks/repository.go" -package "mocks"
+
 // ChatRepository represents chat repository.
 type ChatRepository interface {
 	Create(ctx context.Context) (model.ChatID, error)
 	AddUsers(ctx context.Context, users model.Users) error
-	Delete(ctx context.Context, chatID int64) error
+	Delete(ctx context.Context, chatID model.ChatID) error
 }
 
 // MessageRepository represents message repository.

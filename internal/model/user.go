@@ -32,8 +32,18 @@ func (ids UserIDs) ToInt64() []int64 {
 type Users []*User
 
 // SetChatID sets chat ID to all users.
-func (u *Users) SetChatID(chatID ChatID) {
-	for _, user := range *u {
+func (u Users) SetChatID(chatID ChatID) {
+	for _, user := range u {
 		user.ChatID = chatID
 	}
+}
+
+// IDs returns a list of user IDs.
+func (u Users) IDs() UserIDs {
+	ids := make(UserIDs, 0, len(u))
+	for _, user := range u {
+		ids = append(ids, user.ID)
+	}
+
+	return ids
 }

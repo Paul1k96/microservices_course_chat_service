@@ -90,7 +90,7 @@ func (r *Repository) AddUsers(ctx context.Context, userChat model.Users) error {
 }
 
 // Delete chat by id.
-func (r *Repository) Delete(ctx context.Context, id int64) error {
+func (r *Repository) Delete(ctx context.Context, id model.ChatID) error {
 	queryBuilder := sq.Delete(chatTableName).
 		PlaceholderFormat(sq.Dollar).
 		Where(sq.Eq{chatIDColumn: id})
