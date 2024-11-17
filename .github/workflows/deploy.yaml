@@ -2,7 +2,8 @@ name: deploy
 
 on:
   push:
-    branches: [ main, master ]
+    tags:
+      - '*'
 
 env:
   REGISTRY: "docker.io"
@@ -92,7 +93,7 @@ jobs:
 
       - name: Build and push migration
         run: |
-          TAG_NAME=$(echo $GITHUB_SHA | head -c7)
+          TAG_NAME=${{ github.ref_name }}
           docker buildx create --use
           docker buildx build --no-cache --push \
           --tag $REGISTRY/$IMAGE_NAME_MIGRATION:$TAG_NAME -f migrator.Dockerfile .
@@ -118,7 +119,7 @@ jobs:
           envs: IMAGE_NAME,REGISTRY,GITHUB_SHA,CONTAINER_NAME,IMAGE_NAME_MIGRATION,CONTAINER_NAME_MIGRATION,CONTAINER_NAME_DB,IMAGE_POSTGRES,MIGRATION_DIR
           script: |
             # Set up variables
-            TAG_NAME=$(echo $GITHUB_SHA | head -c7)
+            TAG_NAME=${{ github.ref_name }}
             
             # Login into Selectel Registry
             docker login -u ${{ secrets.REGISTRY_USERNAME }} -p '${{ secrets.REGISTRY_PASSWORD }}' $REGISTRY
