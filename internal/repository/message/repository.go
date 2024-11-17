@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	sq "github.com/Masterminds/squirrel"
-	"github.com/Paul1k96/microservices_course_chat_service/internal/client/db"
-	modelRepoMessage "github.com/Paul1k96/microservices_course_chat_service/internal/repository/message/model"
+	"github.com/Paul1k96/microservices_course_chat_service/internal/model"
+	"github.com/Paul1k96/microservices_course_platform_common/pkg/client/db"
 )
 
 const (
@@ -30,7 +30,7 @@ func NewRepository(pg db.DB) *Repository {
 }
 
 // Create message.
-func (r *Repository) Create(ctx context.Context, message *modelRepoMessage.Message) error {
+func (r *Repository) Create(ctx context.Context, message *model.Message) error {
 	queryBuilder := sq.Insert(messageTable).
 		PlaceholderFormat(sq.Dollar).
 		Columns(idColumn, chatIDColumn, userIDColumn, textColumn, createdAtColumn).

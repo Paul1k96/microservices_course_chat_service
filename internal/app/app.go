@@ -6,8 +6,8 @@ import (
 	"log/slog"
 	"net"
 
-	"github.com/Paul1k96/microservices_course_chat_service/internal/closer"
 	chatv1 "github.com/Paul1k96/microservices_course_chat_service/pkg/proto/gen/chat_v1"
+	"github.com/Paul1k96/microservices_course_platform_common/pkg/closer"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/reflection"

@@ -5,9 +5,8 @@ import (
 	"fmt"
 
 	sq "github.com/Masterminds/squirrel"
-	"github.com/Paul1k96/microservices_course_chat_service/internal/client/db"
 	"github.com/Paul1k96/microservices_course_chat_service/internal/model"
-	modelRepoChat "github.com/Paul1k96/microservices_course_chat_service/internal/repository/chat/model"
+	"github.com/Paul1k96/microservices_course_platform_common/pkg/client/db"
 )
 
 const (
@@ -63,7 +62,7 @@ func (r *Repository) Create(ctx context.Context) (model.ChatID, error) {
 }
 
 // AddUsers to chat.
-func (r *Repository) AddUsers(ctx context.Context, userChat []*modelRepoChat.User) error {
+func (r *Repository) AddUsers(ctx context.Context, userChat model.Users) error {
 	queryBuilder := sq.Insert(chatUsersTableName).
 		PlaceholderFormat(sq.Dollar).
 		Columns(chatUsersID, userIDColumn)
@@ -91,7 +90,7 @@ func (r *Repository) AddUsers(ctx context.Context, userChat []*modelRepoChat.Use
 }
 
 // Delete chat by id.
-func (r *Repository) Delete(ctx context.Context, id int64) error {
+func (r *Repository) Delete(ctx context.Context, id model.ChatID) error {
 	queryBuilder := sq.Delete(chatTableName).
 		PlaceholderFormat(sq.Dollar).
 		Where(sq.Eq{chatIDColumn: id})
